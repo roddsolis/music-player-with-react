@@ -1,0 +1,68 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #2c2c2c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.containerList{
+    overflow: scroll;
+    height: 500px;
+    overflow-x: hidden;
+}
+
+ul, li {
+    list-style-type: none;
+    width: 100%;
+
+}
+
+li{
+    background-color: burlywood;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 40px;
+    padding: 0em 1em;
+    gap: 1em;
+}
+
+.itemInfo{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 1em;
+}
+
+.playSong{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.contenedorReproductor{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 600px;
+    background-color: brown;
+    
+}
+
+.controlesDelReproductor{
+    background-color: cornflowerblue;
+    display: flex;
+    align-items: center;
+    height: 80px;
+    padding: 1em;
+    
+}
