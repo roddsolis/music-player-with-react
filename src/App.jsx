@@ -9,6 +9,7 @@ const App = () => {
   const [ number, setNumber] = useState('block')
   const [ playIcon, setPlayIcon] = useState('none')
   const [ songTime, setSongTime] = useState(0)
+  const [ activeIcon, setActiveIcon ] = useState(null)
 
   const audioRef = useRef()
 
@@ -38,6 +39,20 @@ const App = () => {
     setIconPlay('block')
     audioRef.current.pause()
   }
+
+  
+  const elementoActivo = () => {
+    setActiveIcon()
+    setPlayIcon('block')
+    setNumber('none')
+  }
+  const elementoInactivo = () => {
+    setActiveIcon(null)
+    setPlayIcon('none')
+    setNumber('block')
+  }
+
+ 
   
 
 
@@ -68,11 +83,12 @@ const App = () => {
                 <ul>
                       { 
                         listItems.length > 0 ? listItems.map((item, i)=>{
-                        return <li key={i} onMouseEnter={()=>{setPlayIcon('block'),setNumber('none')}} onMouseLeave={()=>{setPlayIcon('none'),setNumber('block')}} >
-                            
+                        return <li key={item.id} onMouseEnter={()=>{elementoActivo(item)}} onMouseLeave={()=>{elementoInactivo(null)}} >
+                            {/* {item.id !== } */}
                             <div style={{display:playIcon}}>
                               <div className="playIconContainer">
-                                <FaPlay/>
+                              <FaPlay onClick={()=>{reproducirCancion()}} style={{display:iconPlay}}/>
+                              <FaPause onClick={()=>{pausarCancion()}} style={{display:iconPause}}/>
                               </div>  
                             </div>
                             
