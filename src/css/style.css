@@ -15,6 +15,7 @@
   --colors-text-gray-3: #6d6d6d;
 
   --color-border-gray: #131313;
+  --container-surface-1: #141414;
 
 
 
@@ -72,54 +73,79 @@ li {
   width: 100%;
 }
 
-li {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+
+
+.listItemWrapper1{
+  width: 100%;
+  color: var(--colors-text-gray-2);
+  border-radius: 0.3em;
+  color: var(--colors-text-gray-1); 
   height: 56px;
   padding: 0em 1em;
   gap: 1em;
-  transition: 0.1s ease-in-out;
-  color: var(--colors-text-gray-2);
   font-weight: 500;
   letter-spacing: 0.05em;
   word-spacing: 0.07em;
+  display: flex;
+  align-items: center;
 }
-
-li:hover {
-  background-color: var(--colors-container-background);
+.listItemWrapper2{
+  width: 100%;
+  background-color: var(--container-surface-1);
+  color: var(--colors-text-gray-2);
   border-radius: 0.3em;
   box-shadow: 0px 0px 0px 1px #242424;
-  color: var(--colors-text-gray-1);
+  color: var(--colors-text-gray-1); 
+  height: 56px;
+  padding: 0em 1em;
+  gap: 1em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  word-spacing: 0.07em;
+  display: flex;
+  align-items: center;
 }
 
 .itemInfo {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
   width: 100%;
   gap: 1em;
+  height: auto;
+  display: flex;
+  align-items: center;
 }
 
 .playIconContainer {
   font-size: 14px;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgba(255, 255, 255, 0.6);
 }
 
-.numberContainer {
-  width: 24px;
-  height: 24px;
+.numberContainer > p{
+  width: 32px;
+  height: 32px;
+  color: var(--colors-text-gray-3);
+  font-weight: 300;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--colors-text-gray-3);
-  font-weight: 300;
 
+
+}
+
+.waveIcon{
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+iframe{
+  border: none;
 }
 
 .controlesDelReproductor {
@@ -174,6 +200,3 @@ img{
   justify-content: center;
 }
 
-.active {
-  background-color: #08dd48;
-}
