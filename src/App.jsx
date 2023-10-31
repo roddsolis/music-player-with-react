@@ -8,30 +8,37 @@ const App = () => {
   const [listItems, setListItems] = useState([])
   const [ number, setNumber] = useState('block')
   const [ playIcon, setPlayIcon] = useState('none')
+  const [ songTime, setSongTime] = useState(0)
 
-  fetch("https://playground.4geeks.com//apis/fake/sound/songs")
-  .then((response)=>{
-      return response.json()
-  })
-  .then((data)=>{
-      setListItems(data)
-      
-  })
-  .catch((error)=>{
-      console.log('Hubo un error')
+  const audioRef = useRef()
 
-  })
+  useEffect(()=>{
+    fetch("https://playground.4geeks.com//apis/fake/sound/songs")
+    .then((response)=>{return response.json()})
+    .then((data)=>{setListItems(data)})
+    .catch((error)=>{console.log('Hubo un error')})
+  },[])
 
+  useEffect(()=>{
+      setTimeout(() => {        
+        setSongTime(audioRef.current.currentTime)
+        console.log(audioRef.current.currentTime)
+        console.log(audioRef.current.duration)
+      }, 1000);
+   
+  },[])
 
   const reproducirCancion = () => {
     setIconPause('block')
     setIconPlay('none')
+    audioRef.current.play()
   }
   const pausarCancion = () => {
     setIconPause('none')
     setIconPlay('block')
+    audioRef.current.pause()
   }
-
+  
 
 
   return (
@@ -62,12 +69,22 @@ const App = () => {
                       { 
                         listItems.length > 0 ? listItems.map((item, i)=>{
                         return <li key={i} onMouseEnter={()=>{setPlayIcon('block'),setNumber('none')}} onMouseLeave={()=>{setPlayIcon('none'),setNumber('block')}} >
-                            <div style={{display:playIcon}}> <div className="playIconContainer" >▶</div>  </div>
-                            <div className="itemInfo"> 
-                            <div style={{display:number}}> <div className='numberContainer'>{i + 1}</div></div> 
-                            <div>{item.name.charAt(0).toUpperCase()+item.name.slice(1)}</div> 
+                            
+                            <div style={{display:playIcon}}>
+                              <div className="playIconContainer">
+                                <FaPlay/>
+                              </div>  
+                            </div>
+                            
+                            <div className="itemInfo">
+                               
+                            <div style={{display:number}}><div className='numberContainer'>{item.id}</div></div>
+
+                            <div>{item.name.charAt(0).toUpperCase()+item.name.slice(1)}</div>
+
                             </div>  
-                            <p>0:00</p>
+                            <audio src={'https://playground.4geeks.com/apis/fake/sound/'+item.url} ref={audioRef} ></audio>
+                            <p>{songTime}</p>
                             </li> }) 
                         : 
                         "tu lista esta vacia" 
