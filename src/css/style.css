@@ -9,12 +9,19 @@
 :root {
   --colors-background: #050505;
   --colors-background-body: #0a0a0a;
-  --colors-container-background: #131313;
+  --colors-container-background: #0f0f0f;
   --colors-text-gray-1: #afafaf;
   --colors-text-gray-2: #b4b4b4;
   --colors-text-gray-3: #6d6d6d;
 
-  --color-border-gray: #1b1b1b;
+  --color-border-gray: #131313;
+
+
+
+  --bg-grad-color1:#500411;
+  --bg-grad-color2:#660a19;
+  --background-gradient: linear-gradient(0deg, var(--colors-background)75%, var(--bg-grad-color1)100% , var(--bg-grad-color2)100%) ;
+
 }
 
 body {
@@ -40,16 +47,23 @@ body {
   color: var(--colors-text-gray-1);
   overflow: hidden;
   box-shadow: 0px 10px 30px -8px rgb(0, 0, 0);
+  background: var(--background-gradient);
 }
 
 .containerList {
   margin: 1em 1em;
+  /* background-color: red; */
+  
 }
 
 .overflowList {
   overflow: scroll;
   overflow-x: hidden;
   margin: 0.3em;
+  background-color: rgba(0, 0, 0, 0.144);
+  backdrop-filter: blur(50px) brightness(1.8);
+  border-radius:0.5em;
+  
 }
 
 ul,
@@ -104,7 +118,7 @@ li:hover {
   align-items: center;
   justify-content: center;
   color: var(--colors-text-gray-3);
-  font-weight: 200;
+  font-weight: 300;
 
 }
 
@@ -117,8 +131,27 @@ li:hover {
   margin: 0.5em;
   border-radius: 0.6em;
   box-shadow: inset 0px 0px 0px 1px #181818;
+  gap: 1em;
  
 }
+.controls{
+  height: 100%;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap:0.3em;
+  width: 100%;
+  background-color: blueviolet;
+
+}
+
+img{
+  border-radius: 0.3em;
+  border: 1px solid var(--color-border-gray);
+  box-sizing: content-box;
+}
+
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-border-gray);
