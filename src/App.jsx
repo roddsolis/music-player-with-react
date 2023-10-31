@@ -100,29 +100,3 @@ const App = () => {
 };
 
 export default App;
-
-
- {/* { 
-                        listItems.length > 0 ? listItems.map((item)=>{
-                        return <li key={item.id} onMouseEnter={()=>{elementoActivo()}} onMouseLeave={()=>{elementoInactivo()}} >
-                          
-                            <div style={{display:playIcon}}>
-                              <div className="playIconContainer">
-                              <FaPlay onClick={()=>{reproducirCancion()}} style={{display:iconPlay}}/>
-                              <FaPause onClick={()=>{pausarCancion()}} style={{display:iconPause}}/>
-                              </div>  
-                            </div>
-                            
-                            <div className="itemInfo">
-                               
-                            <div style={{display:number}}><div className='numberContainer'>{item.id}</div></div>
-
-                            <div>{item.name.charAt(0).toUpperCase()+item.name.slice(1)}</div>
-
-                            </div>  
-                            <audio src={'https://playground.4geeks.com/apis/fake/sound/'+item.url} ref={audioRef} ></audio>
-                            <p>{songTime}</p>
-                            </li> }) 
-                        : 
-                        "tu lista esta vacia" 
-                      } */}
