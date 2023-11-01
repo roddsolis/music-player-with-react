@@ -1,101 +1,103 @@
-import { useState, useRef, useEffect } from 'react'
-import { FaPlay, FaForwardStep, FaBackwardStep,FaPause} from "react-icons/fa6";
-import MusicItemNormal from './components/MusicItemNormal'
-import MusicItemHover from './components/MusicItemHover'
+import React, { useState, useRef, useEffect } from 'react';
+import { FaPlay, FaForwardStep, FaBackwardStep, FaPause } from 'react-icons/fa6';
 
 const App = () => {
+  const [iconPlay, setIconPlay] = useState('block');
+  const [iconPause, setIconPause] = useState('none');
+  const [number, setNumber] = useState('block');
+  const [playIcon, setPlayIcon] = useState('none');
+  const [activeIcon, setActiveIcon] = useState(null);
 
-  const audioRef = useRef()
-   
-  const [iconPlay, setIconPlay] = useState('block')
-  const [iconPause, setIconPause] = useState('none')
-  const [listItems, setListItems] = useState([])
-  const [ itemNormal, setItemNormal ] = useState('block')
-  const [ itemHover, setItemHover ] = useState('none')
-  
+  const audioRefs = useRef([]);
+  const [songList, setSongList] = useState([]);
+  const [activeSongIndex, setActiveSongIndex] = useState(null);
+  const [songTime, setSongTime] = useState('0:00');
 
+  useEffect(() => {
+    fetch('https://playground.4geeks.com//apis/fake/sound/songs')
+      .then((response) => response.json())
+      .then((data) => {
+        setSongList(data);
+        audioRefs.current = data.map(() => React.createRef());
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
-|
-  useEffect(()=>{
-    fetch("https://playground.4geeks.com//apis/fake/sound/songs")
-    .then((response)=>{return response.json()})
-    .then((data)=>{setListItems(data)})
-    .catch((error)=>{console.log('Hubo un error')})
-  },[])
+  const handlePlaySong = (index) => {
+    if (audioRefs.current[index].current) {
+      if (activeSongIndex !== null) {
+        audioRefs.current[activeSongIndex].current.pause();
+      }
+      audioRefs.current[index].current.play();
+      setActiveSongIndex(index);
+      setIconPlay('none');
+      setIconPause('block');
 
-/*   useEffect(()=>{
-      setTimeout(() => {        
-        setSongTime(audioRef.current.duration)
-        console.log(audioRef.current.currentTime)
-        console.log(audioRef.current.duration)
-      }, 2000);
-   
-  },[]) */
+      audioRefs.current[index].current.addEventListener('timeupdate', updateTime);
+    }
+  };
 
-  const reproducirCancion = () => {
-    setIconPause('block')
-    setIconPlay('none')
-    // audioRef.current.play()
-  }
-  const pausarCancion = () => {
-    setIconPause('none')
-    setIconPlay('block')
-    // audioRef.current.pause()
-  }
+  const updateTime = () => {
+    if (audioRefs.current[activeSongIndex].current) {
+      const audioElement = audioRefs.current[activeSongIndex].current;
+      const minutes = Math.floor(audioElement.currentTime / 60);
+      const seconds = Math.floor(audioElement.currentTime % 60);
+      setSongTime(`${minutes}:${seconds < 10 ? '0' : ''}${seconds}`);
+    }
+  };
 
-  const normalState = () =>{
-    setItemNormal('none')
-    setItemHover('block')
-  }
+  const handlePauseSong = (index) => {
+    if (audioRefs.current[index].current !== null) {
+      audioRefs.current[index].current.pause();
+      setIconPlay('block');
+      setIconPause('none');
+      setActiveSongIndex(null);
+      audioRefs.current[index].current.removeEventListener('timeupdate', updateTime);
+    }
+  };
 
-  const hoverState = () =>{
-    setItemNormal('block')
-    setItemHover('none')
-  }
+  const elementoActivo = () => {
+    setActiveIcon();
+    setPlayIcon('block');
+    setNumber('none');
+  };
+
+  const elementoInactivo = () => {
+    setActiveIcon(null);
+    setPlayIcon('none');
+    setNumber('block');
+  };
 
   return (
     <>
       <div className="contenedorReproductor">
 
-            <div className="controlesDelReproductor">
-          
-            <div className='controls'>
-              <div className="iconWrapper">
-              <FaBackwardStep style={{fontSize:"24px"}}/>
-              </div> 
-            <div className="iconWrapper">
-            <FaPlay onClick={()=>{reproducirCancion()}} style={{display:iconPlay}}/>
-            <FaPause onClick={()=>{pausarCancion()}} style={{display:iconPause}}/>
-            </div> 
-              <div className="iconWrapper">
-              <FaForwardStep style={{fontSize:"24px"}}/>
-              </div> 
-            </div>
+        <div className="overflowList">
+          <div className="containerList">
+            <ul>
+              {songList.length > 0 ? songList.map((item, index) => {
+                return (
+                  <li key={item.id} onMouseEnter={() => { elementoActivo(item); }} onMouseLeave={() => { elementoInactivo(null); }}>
+                    <div style={{ display: playIcon }}>
+                      <div className="playIconContainer">
+                        <FaPlay onClick={() => { handlePlaySong(index); }} style={{ display: iconPlay }} />
+                        <FaPause onClick={() => { handlePauseSong(index); }} style={{ display: iconPause }} />
+                      </div>
+                    </div>
 
-            </div>
-            
-            <div className="overflowList">
+                    <div className="itemInfo">
+                      <div style={{ display: number }}><div className='numberContainer'>{item.id}</div></div>
+                      <div>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</div>
+                    </div>
 
-            <div className="containerList">
-                <ul>
-                    {listItems.length > 0 ? listItems.map((item, index)=>{
-                      
-                      return
-                      
-                      {console.log(item), console.log(index)}
-                      <>
-                      <MusicItemNormal itemDisplayNormal={itemNormal} hover={()=>{normalState()}} key={index} value={item}/>
-                      <MusicItemHover itemDisplayHover={itemHover} normal={()=>{hoverState()}} key={index} value={item}/>
-                      </>
-                      
-                      
-                      }): 'tu lista esta vacia'}
-
-                </ul>
-            </div>
-
-            </div>
-
+                    <audio src={`https://playground.4geeks.com/apis/fake/sound/${item.url}`} ref={audioRefs.current[index]}></audio>
+                    <p>{songTime}</p>
+                  </li>
+                );
+              }) : 'Tu lista está vacía'}
+            </ul>
+          </div>
+        </div>
       </div>
     </>
   );
